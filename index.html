@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to right, #9aeaff, #c4f0fa); 
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            background: #fff;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.3);
+            width: 350px;
+            text-align: center;
+        }
+        h2 {
+            color: #758cff; 
+        }
+        label {
+            font-weight: bold;
+            color: #333; 
+            margin-top: 10px;
+            display: block;
+        }
+        input {
+            width: 80%;
+            padding: 10px;
+            margin: 8px auto;
+            border: 2px solid #758cff; 
+            border-radius: 8px;
+            outline: none;
+            font-size: 14px;
+            display: block;
+            text-align: center;
+        }
+        input:focus {
+            border-color: #4b8bff; 
+            box-shadow: 0px 0px 10px rgba(75, 139, 255, 0.5); 
+        }
+        .error {
+            color: red;
+            font-size: 12px;
+            display: none;
+        }
+        .success-message {
+            color: green;
+            font-size: 14px;
+            margin-top: 15px;
+            display: none;
+            font-weight: bold;
+        }
+        button {
+            margin-top: 15px;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: #4b8bff;
+            color: white;
+            font-size: 16px;
+            cursor: not-allowed;
+            width: 100%;
+        }
+        button.enabled {
+            cursor: pointer;
+            background: #2a6dff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Register</h2>
+        <form id="registrationForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" required>
+            <div class="error" id="nameError">Name cannot be empty</div>
+            
+            <label for="email">Email:</label>
+            <input type="email" id="email" required>
+            <div class="error" id="emailError">Enter a valid email</div>
+            
+            <label for="password">Password:</label>
+            <input type="password" id="password" required>
+            <div class="error" id="passwordError">Password must be at least 6 characters</div>
+            
+            <button type="submit" id="submitBtn" disabled>Register</button>
+        </form>
+        <div class="success-message" id="successMessage">You are registered successfully!</div>
+    </div>
+    
+    <script>
+        const nameInput = document.getElementById("name");
+        const emailInput = document.getElementById("email");
+        const passwordInput = document.getElementById("password");
+        const submitBtn = document.getElementById("submitBtn");
+        const nameError = document.getElementById("nameError");
+        const emailError = document.getElementById("emailError");
+        const passwordError = document.getElementById("passwordError");
+        const successMessage = document.getElementById("successMessage");
+        const registrationForm = document.getElementById("registrationForm");
+
+        function validateForm() {
+            let isValid = true;
+            
+            if (nameInput.value.trim() === "") {
+                nameError.style.display = "block";
+                isValid = false;
+            } else {
+                nameError.style.display = "none";
+            }
+            
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(emailInput.value)) {
+                emailError.style.display = "block";
+                isValid = false;
+            } else {
+                emailError.style.display = "none";
+            }
+            
+            if (passwordInput.value.length < 6) {
+                passwordError.style.display = "block";
+                isValid = false;
+            } else {
+                passwordError.style.display = "none";
+            }
+            
+            submitBtn.disabled = !isValid;
+            submitBtn.classList.toggle("enabled", isValid);
+        }
+
+        nameInput.addEventListener("input", validateForm);
+        emailInput.addEventListener("input", validateForm);
+        passwordInput.addEventListener("input", validateForm);
+
+        registrationForm.addEventListener("submit", function(event) {
+            event.preventDefault();
+            successMessage.style.display = "block";
+            registrationForm.reset();
+            submitBtn.disabled = true;
+            submitBtn.classList.remove("enabled");
+        });
+    </script>
+</body>
+</html>
